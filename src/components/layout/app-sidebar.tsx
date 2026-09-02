@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, Inbox, Calendar, Mail, Search, Settings } from "lucide-react";
+import { Home, Inbox, Calendar, Mail, Search, Settings, LogIn } from "lucide-react";
 
 // TARUH DI SINI (Di luar fungsi)
 const items = [
@@ -42,6 +42,11 @@ const items = [
     url: "#",
     icon: Settings,
   },
+  {
+    title: "Login",
+    url: "/auth/login",
+    icon: LogIn,
+  }
 ];
 
 export default function AppSidebar() {
