@@ -25,7 +25,7 @@ export default function HomePage() {
 
           {/* Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 leading-tight mb-5">
-            Saya Gabriel Dari Kelas XI PPLG
+            Saya Gabriel Dari Kelas XI C PPLG
           </h1>
 
           {/* Subheading / Deskripsi */}
