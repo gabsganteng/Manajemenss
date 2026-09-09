@@ -24,7 +24,7 @@ export default function RegisterPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#f8fafc",
+        backgroundColor: "#e2e8f0", // Samakan persis dengan Login
         fontFamily: "system-ui, -apple-system, sans-serif",
         padding: "20px",
       }}
@@ -33,15 +33,15 @@ export default function RegisterPage() {
         style={{
           width: "100%",
           maxWidth: "380px",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#ffffff", // Card putih bersih seperti Login
           borderRadius: "28px",
           padding: "36px 32px",
           boxShadow: isHovered
-            ? "0 20px 35px -10px rgba(15, 23, 42, 0.08), 0 8px 16px -6px rgba(15, 23, 42, 0.04)"
-            : "0 12px 28px -8px rgba(15, 23, 42, 0.05), 0 4px 12px -4px rgba(15, 23, 42, 0.03)",
-          border: "1px solid #e2e8f0",
+            ? "0 22px 45px -10px rgba(15, 23, 42, 0.18), 0 8px 18px -6px rgba(15, 23, 42, 0.08)"
+            : "0 14px 30px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -4px rgba(15, 23, 42, 0.06)",
+          border: "1px solid #cbd5e1", // Border disamakan
           transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          transform: isHovered ? "translateY(-3px)" : "translateY(0)",
+          transform: isHovered ? "translateY(-4px)" : "translateY(0)",
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -79,7 +79,7 @@ export default function RegisterPage() {
               style={{
                 height: "44px",
                 borderRadius: "14px",
-                border: "1px solid #e2e8f0",
+                border: "1px solid #cbd5e1",
                 backgroundColor: "#f8fafc",
                 padding: "0 16px",
                 fontSize: "14px",
@@ -89,10 +89,10 @@ export default function RegisterPage() {
               onFocus={(e) => {
                 e.target.style.borderColor = "#0f172a";
                 e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.06)";
+                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.08)";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.borderColor = "#cbd5e1";
                 e.target.style.backgroundColor = "#f8fafc";
                 e.target.style.boxShadow = "none";
               }}
@@ -112,7 +112,7 @@ export default function RegisterPage() {
               style={{
                 height: "44px",
                 borderRadius: "14px",
-                border: "1px solid #e2e8f0",
+                border: "1px solid #cbd5e1",
                 backgroundColor: "#f8fafc",
                 padding: "0 16px",
                 fontSize: "14px",
@@ -122,10 +122,10 @@ export default function RegisterPage() {
               onFocus={(e) => {
                 e.target.style.borderColor = "#0f172a";
                 e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.06)";
+                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.08)";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.borderColor = "#cbd5e1";
                 e.target.style.backgroundColor = "#f8fafc";
                 e.target.style.boxShadow = "none";
               }}
@@ -145,7 +145,7 @@ export default function RegisterPage() {
               style={{
                 height: "44px",
                 borderRadius: "14px",
-                border: "1px solid #e2e8f0",
+                border: "1px solid #cbd5e1",
                 backgroundColor: "#f8fafc",
                 padding: "0 16px",
                 fontSize: "14px",
@@ -155,10 +155,10 @@ export default function RegisterPage() {
               onFocus={(e) => {
                 e.target.style.borderColor = "#0f172a";
                 e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.06)";
+                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.08)";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.borderColor = "#cbd5e1";
                 e.target.style.backgroundColor = "#f8fafc";
                 e.target.style.boxShadow = "none";
               }}
@@ -178,15 +178,15 @@ export default function RegisterPage() {
               border: "none",
               cursor: "pointer",
               transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-              boxShadow: "0 4px 14px rgba(15, 23, 42, 0.12)",
+              boxShadow: "0 4px 14px rgba(15, 23, 42, 0.2)",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#1e293b";
-              e.currentTarget.style.boxShadow = "0 6px 18px rgba(15, 23, 42, 0.18)";
+              e.currentTarget.style.boxShadow = "0 8px 22px rgba(15, 23, 42, 0.28)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "#0f172a";
-              e.currentTarget.style.boxShadow = "0 4px 14px rgba(15, 23, 42, 0.12)";
+              e.currentTarget.style.boxShadow = "0 4px 14px rgba(15, 23, 42, 0.2)";
             }}
             onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
             onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
