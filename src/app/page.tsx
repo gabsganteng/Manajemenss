@@ -1,8 +1,7 @@
-"use client";
+import { redirect } from "next/navigation";
 
-import { useRouter } from "next/navigation";
+export default function Page() {
+  redirect("/auth/login");
 
-export default function LoginPage() {
-  const router = useRouter();
-  router.push("/auth/login");
+  // return <div>This won't be rendered</div>;
 }
