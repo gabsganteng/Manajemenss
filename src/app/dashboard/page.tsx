@@ -1,53 +1,57 @@
 "use client";
 
-import { useState } from "react";
-
-export default function HomePage() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen bg-[#e5e7eb] text-slate-900 font-sans relative overflow-x-hidden">
-      
-      {/* 2. KONTEN UTAMA HALAMAN */}
-      <main
-        className={`flex-1 min-h-screen relative flex flex-col justify-center px-6 sm:px-12 md:px-20 py-12 transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "md:ml-64 ml-0" : "ml-0"
-        }`}
-      >
-        
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", minHeight: "75vh", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      {/* Label NEXT.JS */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <span style={{ fontSize: "16px", fontWeight: "900", letterSpacing: "-0.5px", color: "#0f172a" }}>
+          NEXT<sup style={{ fontSize: "10px" }}>JS</sup>
+        </span>
+      </div>
 
-        {/* Hero Section Responsif */}
-        <div className="max-w-3xl mt-10 sm:mt-0">
-          {/* Logo NEXT.js */}
-          <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-3 text-black">
-            NEXT<span className="text-xs sm:text-sm align-super ml-0.5">JS</span>
-          </div>
+      {/* Judul Utama */}
+      <h1 style={{ fontSize: "42px", fontWeight: "800", color: "#0f172a", lineHeight: "1.2", marginBottom: "16px", maxWidth: "700px" }}>
+        Saya Gabriel Dari Kelas XI C PPLG
+      </h1>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 leading-tight mb-5">
-            Saya Gabriel Dari Kelas XI C PPLG
-          </h1>
+      {/* Deskripsi */}
+      <p style={{ fontSize: "16px", color: "#64748b", marginBottom: "32px" }}>
+        lagi belajar next.js, dengan bikin projek Sistem Manajemen Siswa.
+      </p>
 
-          {/* Subheading / Deskripsi */}
-          <p className="text-slate-600 mb-8 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
-            lagi belajar next.js, dengan bikin projek Sistem Manajemen Siswa.
-          </p>
+      {/* Tombol Aksi */}
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <button
+          style={{
+            backgroundColor: "#0f172a",
+            color: "#ffffff",
+            border: "none",
+            borderRadius: "8px",
+            padding: "12px 20px",
+            fontSize: "14px",
+            fontWeight: "600",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <span>▲</span> Deploy Now
+        </button>
 
-          {/* Tombol Action */}
-          <div className="flex flex-wrap items-center gap-4">
-            <button className="flex items-center gap-2.5 bg-black hover:bg-slate-800 text-white px-6 py-3 rounded-md text-base font-semibold shadow-sm transition-colors">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2L2 19h20L12 2z" />
-              </svg>
-              Deploy Now
-            </button>
-
-            <button className="text-base text-slate-700 hover:text-black font-semibold px-4 py-3 transition-colors">
-              Documentation
-            </button>
-          </div>
-        </div>
-      </main>
+        <a
+          href="#"
+          style={{
+            color: "#0f172a",
+            fontSize: "14px",
+            fontWeight: "600",
+            textDecoration: "none",
+          }}
+        >
+          Documentation
+        </a>
+      </div>
     </div>
   );
 }
