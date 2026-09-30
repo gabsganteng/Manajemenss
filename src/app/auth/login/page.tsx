@@ -1,178 +1,107 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
-  const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ email, password });
-    router.push("/dashboard");
-  };
+    const router = useRouter();
 
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#e2e8f0", // Bikin agak gelap dikit biar card putihnya kontras
-        fontFamily: "system-ui, -apple-system, sans-serif",
-        padding: "20px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "380px",
-          backgroundColor: "#ffffff",
-          borderRadius: "28px",
-          padding: "36px 32px",
-          // Shadow ditegaskan tapi difokuskan blur-nya biar tebel berdimensi
-          boxShadow: isHovered
-            ? "0 22px 45px -10px rgba(15, 23, 42, 0.18), 0 8px 18px -6px rgba(15, 23, 42, 0.08)"
-            : "0 14px 30px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -4px rgba(15, 23, 42, 0.06)",
-          border: "1px solid #cbd5e1", // Border lebih kelihatan
-          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          transform: isHovered ? "translateY(-4px)" : "translateY(0)",
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1
-            style={{
-              fontSize: "24px",
-              fontWeight: "700",
-              color: "#0f172a",
-              margin: "0 0 6px 0",
-              letterSpacing: "-0.5px",
-            }}
-          >
-            Selamat Datang
-          </h1>
-          <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>
-            Masukkan akun kamu untuk melanjutkan
-          </p>
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        console.log("Form submitted", formData);
+        router.push("/dashboard");
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-r from-blue-50 via-white to-blue-100 flex items-center justify-center p-4">
+            <div className="w-full max-w-md">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100 p-8 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/10 rounded-2xl" />
+                    <div className="relative z-10">
+                        {/* <a href="/dashboard" className="flex items-center gap-2 text-gray-600 hover:text-blue-600">
+                            <ArrowLeft className="w-4 h-4"></ArrowLeft>
+                            Back to home
+                        </a> */}
+                        <div className="text-center mb-6">
+                            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500/5 to-blue-600/100 rounded-full flex items-center justify-center mb-4 shadow-lg">
+                                <User className="w-8 h-8 text-white" />
+                            </div>
+                            <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+                            <p className="text-gray-600">Sign in to your account</p>
+                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-gray-700" htmlFor="email">
+                                    Email
+                                </label>
+                                <div className="relative">
+                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></Mail>
+                                    <input
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        type="email"
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Enter your email"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-gray-700" htmlFor="password">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></Lock>
+                                    <input
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleInputChange}
+                                        type={showPassword ? "text" : "password"}
+                                        className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Enter your password"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    >
+                                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    </button>
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-xl font-medium hover:from-blue-600 hover:to-blue-700 transition hover:scale-[1.02] shadow-lg hover:shadow-xl transition-all"
+                            >
+                                Login
+                            </button>
+                            <div className="text-center">
+                                <p className="text-sm text-gray-600">
+                                    Don&apos;t have an account?{" "}
+                                    <a href="/auth/register" className="text-blue-600 hover:underline">
+                                        Register
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <label style={{ fontSize: "12px", fontWeight: "600", color: "#334155", marginLeft: "4px" }}>
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="nama@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{
-                height: "44px",
-                borderRadius: "14px",
-                border: "1px solid #cbd5e1",
-                backgroundColor: "#f8fafc",
-                padding: "0 16px",
-                fontSize: "14px",
-                outline: "none",
-                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#0f172a";
-                e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.08)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#cbd5e1";
-                e.target.style.backgroundColor = "#f8fafc";
-                e.target.style.boxShadow = "none";
-              }}
-            />
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <label style={{ fontSize: "12px", fontWeight: "600", color: "#334155", marginLeft: "4px" }}>
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={{
-                height: "44px",
-                borderRadius: "14px",
-                border: "1px solid #cbd5e1",
-                backgroundColor: "#f8fafc",
-                padding: "0 16px",
-                fontSize: "14px",
-                outline: "none",
-                transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#0f172a";
-                e.target.style.backgroundColor = "#ffffff";
-                e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.08)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#cbd5e1";
-                e.target.style.backgroundColor = "#f8fafc";
-                e.target.style.boxShadow = "none";
-              }}
-            />
-          </div>
-
-          <button
-            type="submit"
-            style={{
-              height: "44px",
-              marginTop: "8px",
-              borderRadius: "14px",
-              backgroundColor: "#0f172a",
-              color: "#ffffff",
-              fontSize: "14px",
-              fontWeight: "600",
-              border: "none",
-              cursor: "pointer",
-              transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-              boxShadow: "0 4px 14px rgba(15, 23, 42, 0.2)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#1e293b";
-              e.currentTarget.style.boxShadow = "0 8px 22px rgba(15, 23, 42, 0.28)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "#0f172a";
-              e.currentTarget.style.boxShadow = "0 4px 14px rgba(15, 23, 42, 0.2)";
-            }}
-            onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-            onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          >
-            Login
-          </button>
-        </form>
-
-        {/* Footer */}
-        <p style={{ marginTop: "24px", textAlign: "center", fontSize: "13px", color: "#64748b" }}>
-          Belum punya akun?{" "}
-          <Link
-            href="/auth/register"
-            style={{ color: "#2563eb", fontWeight: "600", textDecoration: "none" }}
-          >
-            Register
-          </Link>
-        </p>
-      </div>
-    </div>
-  );
+    );
 }
