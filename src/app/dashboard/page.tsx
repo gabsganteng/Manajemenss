@@ -1,56 +1,180 @@
-"use client";
+'use client';
+
+import { useState } from "react";
+import { Users, GraduationCap, TrendingUp, AlertTriangle, BarChart3 } from "lucide-react";
 
 export default function DashboardPage() {
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", minHeight: "75vh", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Label NEXT.JS */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-        <span style={{ fontSize: "16px", fontWeight: "900", letterSpacing: "-0.5px", color: "#0f172a" }}>
-          NEXT<sup style={{ fontSize: "10px" }}>JS</sup>
-        </span>
+    <div className="flex-1 p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
+      {/* Header Judul */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Dashboard Siswa</h1>
+        <span className="text-sm font-medium text-slate-500">SMK Telekomunikasi Tunas Harapan</span>
       </div>
 
-      {/* Judul Utama */}
-      <h1 style={{ fontSize: "42px", fontWeight: "800", color: "#0f172a", lineHeight: "1.2", marginBottom: "16px", maxWidth: "700px" }}>
-        Saya Gabriel Dari Kelas XI C PPLG
-      </h1>
+      {/* Grid 4 Kartu Statistik */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {/* Card 1: Siswa Aktif */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col">
+              <span className="text-sm text-slate-400 font-medium">Siswa</span>
+              <span className="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md w-fit mt-1">Aktif</span>
+            </div>
+            <div className="w-12 h-12 bg-blue-600 rounded-[20px] text-white shadow-md shadow-blue-100 flex items-center justify-center">
+              <Users className="h-6 w-6" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-slate-900">10</div>
+            <p className="text-xs text-slate-400 mt-1">Siswa aktif</p>
+          </div>
+        </div>
 
-      {/* Deskripsi */}
-      <p style={{ fontSize: "16px", color: "#64748b", marginBottom: "32px" }}>
-        lagi belajar next.js, dengan bikin projek Sistem Manajemen Siswa.
-      </p>
+        {/* Card 2: Kelas */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm text-slate-400 font-medium">Kelas</span>
+            <div className="w-12 h-12 bg-emerald-500 rounded-[20px] text-white shadow-md shadow-emerald-100 flex items-center justify-center">
+              <GraduationCap className="h-6 w-6" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-slate-900">4</div>
+            <p className="text-xs text-slate-400 mt-1">Kelas aktif</p>
+          </div>
+        </div>
 
-      {/* Tombol Aksi */}
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <button
-          style={{
-            backgroundColor: "#0f172a",
-            color: "#ffffff",
-            border: "none",
-            borderRadius: "8px",
-            padding: "12px 20px",
-            fontSize: "14px",
-            fontWeight: "600",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          <span>▲</span> Deploy Now
-        </button>
+        {/* Card 3: Rata-rata/Kelas */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm text-slate-400 font-medium">Rata-rata/Kelas</span>
+            <div className="w-12 h-12 bg-amber-500 rounded-[20px] text-white shadow-md shadow-amber-100 flex items-center justify-center">
+              <TrendingUp className="h-6 w-6" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-slate-900">3</div>
+            <p className="text-xs text-slate-400 mt-1">Siswa per kelas</p>
+          </div>
+        </div>
 
-        <a
-          href="#"
-          style={{
-            color: "#0f172a",
-            fontSize: "14px",
-            fontWeight: "600",
-            textDecoration: "none",
-          }}
-        >
-          Documentation
-        </a>
+        {/* Card 4: Pelanggaran */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm text-slate-400 font-medium">Pelanggaran</span>
+            <div className="w-12 h-12 bg-red-500 rounded-[20px] text-white shadow-md shadow-red-100 flex items-center justify-center">
+              <AlertTriangle className="h-6 w-6" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-extrabold text-slate-900">69</div>
+            <p className="text-xs text-slate-400 mt-1">Total pelanggaran</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bagian Bawah: Grafik Siswa per Kelas */}
+      <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 relative">
+        <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-blue-50 rounded-2xl text-blue-600">
+              <BarChart3 className="h-5 w-5" />
+            </div>
+            <h2 className="text-lg font-bold text-slate-900">Siswa per Kelas</h2>
+          </div>
+          <span className="text-xs font-semibold px-4 py-2 rounded-xl text-slate-600 bg-slate-50 border border-slate-100 shadow-sm">
+            Gender Distribution
+          </span>
+        </div>
+
+        {/* Area Grafik Batang */}
+        <div className="pt-4 pb-2 relative">
+          <div className="relative h-60 flex items-end pl-12 pr-6 border-l border-b border-slate-200 ml-4 mb-8">
+            
+            {/* Tooltip Hover */}
+            {activeTooltip && (
+              <div className="absolute top-4 right-1/3 bg-white border border-slate-200 shadow-xl rounded-2xl p-4 z-20 w-44 animate-in fade-in zoom-in-95 duration-150">
+                <p className="text-sm font-bold text-slate-800 mb-2">{activeTooltip}</p>
+                <div className="space-y-1 text-xs font-medium">
+                  <div className="flex justify-between items-center text-blue-600">
+                    <span>Laki-Laki :</span>
+                    <span className="font-bold">2</span>
+                  </div>
+                  <div className="flex justify-between items-center text-pink-600">
+                    <span>Perempuan :</span>
+                    <span className="font-bold">1</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Sumbu Y */}
+            <div className="absolute left-[-40px] top-0 h-full flex flex-col justify-between text-xs font-medium text-slate-400 py-1">
+              <span>3</span>
+              <span>2.25</span>
+              <span>1.5</span>
+              <span>0.75</span>
+              <span>0</span>
+            </div>
+
+            {/* Batang Grafik */}
+            <div className="flex items-end justify-around h-full w-full pt-4">
+              {/* XI RPL 1 */}
+              <div 
+                className="relative flex flex-col items-center h-full cursor-pointer group"
+                onMouseEnter={() => setActiveTooltip("XI RPL 1")}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >
+                <div className="flex items-end gap-2.5 h-full">
+                  <div className="w-12 bg-blue-500 hover:bg-blue-600 transition-colors rounded-t-xl h-48 shadow-sm"></div>
+                  <div className="w-12 bg-pink-500 hover:bg-pink-600 transition-colors rounded-t-xl h-32 shadow-sm"></div>
+                </div>
+                <span className="absolute -bottom-8 text-xs font-semibold text-slate-600 group-hover:text-blue-600">XI RPL 1</span>
+              </div>
+
+              {/* XI RPL 2 */}
+              <div 
+                className="relative flex flex-col items-center h-full cursor-pointer group"
+                onMouseEnter={() => setActiveTooltip("XI RPL 2")}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >
+                <div className="flex items-end gap-2.5 h-full">
+                  <div className="w-12 bg-blue-500 hover:bg-blue-600 transition-colors rounded-t-xl h-32 shadow-sm"></div>
+                  <div className="w-12 bg-pink-500 hover:bg-pink-600 transition-colors rounded-t-xl h-20 shadow-sm"></div>
+                </div>
+                <span className="absolute -bottom-8 text-xs font-semibold text-slate-600 group-hover:text-blue-600">XI RPL 2</span>
+              </div>
+
+              {/* XII RPL 1 */}
+              <div 
+                className="relative flex flex-col items-center h-full cursor-pointer group"
+                onMouseEnter={() => setActiveTooltip("XII RPL 1")}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >
+                <div className="flex items-end gap-2.5 h-full">
+                  <div className="w-12 bg-blue-500 hover:bg-blue-600 transition-colors rounded-t-xl h-20 shadow-sm"></div>
+                  <div className="w-12 bg-pink-500 hover:bg-pink-600 transition-colors rounded-t-xl h-20 shadow-sm"></div>
+                </div>
+                <span className="absolute -bottom-8 text-xs font-semibold text-slate-600 group-hover:text-blue-600">XII RPL 1</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Legenda Warna */}
+          <div className="flex items-center justify-center gap-6 pt-6">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 bg-blue-500 rounded-md"></span>
+              <span className="text-xs font-medium text-slate-600">Laki-Laki</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 bg-pink-500 rounded-md"></span>
+              <span className="text-xs font-medium text-slate-600">Perempuan</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

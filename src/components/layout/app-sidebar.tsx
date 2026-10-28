@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { Home, Users, BarChart3, LogOut } from "lucide-react";
 
 export default function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
   const menuItems = [
-    { name: "Dashboard", href: "/dashboard", icon: "🏠" },
-    { name: "Siswa", href: "/siswa", icon: "👥" },
-    { name: "Kelas", href: "/kelas", icon: "📊" },
-    { name: "Pelanggaran", href: "/pelanggaran", icon: "⚠️" },
+    { name: "Dashboard", href: "/dashboard", icon: Home },
+    { name: "Siswa", href: "/siswa", icon: Users },
+    { name: "Kelas", href: "/kelas", icon: BarChart3 },
+    { name: "Pelanggaran", href: "/pelanggaran", icon: BarChart3 },
   ];
 
   const handleLogout = () => {
@@ -58,6 +59,7 @@ export default function AppSidebar() {
         {/* Menu Navigasi */}
         <nav style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
           {menuItems.map((item) => {
+            const Icon = item.icon;
             const isActive = pathname === item.href;
             return (
               <Link
@@ -68,16 +70,17 @@ export default function AppSidebar() {
                   alignItems: "center",
                   gap: "12px",
                   padding: "12px 16px",
-                  borderRadius: "10px",
+                  borderRadius: "12px",
                   color: isActive ? "#ffffff" : "#64748b",
                   backgroundColor: isActive ? "#2563eb" : "transparent",
                   textDecoration: "none",
                   fontSize: "14px",
                   fontWeight: isActive ? "600" : "500",
+                  transition: "all 0.2s ease",
                 }}
               >
-                <span style={{ fontSize: "16px" }}>{item.icon}</span>
-                {item.name}
+                <Icon size={18} />
+                <span>{item.name}</span>
               </Link>
             );
           })}
@@ -140,7 +143,7 @@ export default function AppSidebar() {
             gap: "8px",
           }}
         >
-          🚪 Keluar / Logout
+          <LogOut size={16} /> Keluar / Logout
         </button>
       </div>
     </aside>
