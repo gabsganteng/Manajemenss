@@ -5,6 +5,17 @@ import { Users, GraduationCap, TrendingUp, AlertTriangle, BarChart3, PieChart, A
 
 export default function DashboardPage() {
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const [trendHoverIndex, setTrendHoverIndex] = useState<number | null>(null);
+
+  // Data Tren Pelanggaran 6 Bulan Terakhir
+  const trendData = [
+    { month: "2025-06", diselesaikan: 0, pelanggaran: 4, x: 0, y: 100 },
+    { month: "2025-07", diselesaikan: 0, pelanggaran: 4, x: 120, y: 100 },
+    { month: "2025-08", diselesaikan: 0, pelanggaran: 4, x: 240, y: 100 },
+    { month: "2025-09", diselesaikan: 0, pelanggaran: 4, x: 360, y: 100 },
+    { month: "2025-10", diselesaikan: 0, pelanggaran: 7, x: 480, y: 25 },
+    { month: "2025-11", diselesaikan: 0, pelanggaran: 0, x: 600, y: 200 },
+  ];
 
   return (
     <div className="flex-1 p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
@@ -76,7 +87,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* URUTAN ATAS KE BAWAH */}
+      {/* TATA LETAK UTAMA: ATAS KE BAWAH */}
       <div className="flex flex-col gap-6">
         
         {/* 1. CHART SISWA PER KELAS */}
@@ -212,7 +223,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 3. CHART TREN PELANGGARAN (PERSIS GAMBAR REFERENSI BARU) */}
+        {/* 3. CHART TREN PELANGGARAN DENGAN HOVER TOOLTIP INTERAKTIF */}
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
           <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
             <div className="flex items-center gap-3">
@@ -237,41 +248,103 @@ export default function DashboardPage() {
                 <span>0</span>
               </div>
 
-              {/* Kurva Grafik SVG Flat-to-Curve Presisi */}
+              {/* Kurva Grafik SVG */}
               <div className="w-full h-full relative flex items-end">
                 <svg className="w-full h-full overflow-visible" viewBox="0 0 600 200" preserveAspectRatio="none">
-                  {/* Isian Warna Merah Muda Solid Transparan */}
+                  {/* Area Merah Muda Transparan */}
                   <path
                     d="M 0,100 L 360,100 C 420,100 440,25 480,25 C 520,25 570,120 600,200 L 0,200 Z"
                     fill="rgba(248, 113, 113, 0.22)"
                   />
 
-                  {/* Garis Kurva Merah Halus */}
+                  {/* Garis Kurva Merah Utama */}
                   <path
                     d="M 0,100 L 360,100 C 420,100 440,25 480,25 C 520,25 570,120 600,200"
                     fill="none"
-                    stroke="#d97706" // border garis kurva merah/kecokelatan tipis
-                    strokeWidth="1.8"
-                    className="stroke-red-600"
+                    stroke="#ef4444"
+                    strokeWidth="2"
                   />
 
-                  {/* Garis Hijau di Dasar Sumbu X (Diselesaikan) */}
-                  <line x1="0" y1="200" x2="600" y2="200" stroke="#34d399" strokeWidth="2.5" />
+                  {/* Garis Hijau di Dasar Sumbu X */}
+                  <line x1="0" y1="200" x2="600" y2="200" stroke="#10b981" strokeWidth="2" />
+
+                  {/* Garis Vertikal & Dots Saat Hover */}
+                  {trendHoverIndex !== null && (
+                    <g className="animate-in fade-in duration-150">
+                      {/* Garis Vertikal Abu-abu */}
+                      <line
+                        x1={trendData[trendHoverIndex].x}
+                        y1="0"
+                        x2={trendData[trendHoverIndex].x}
+                        y2="200"
+                        stroke="#cbd5e1"
+                        strokeWidth="1"
+                        strokeDasharray="0"
+                      />
+                      {/* Dot Merah pada Kurva */}
+                      <circle
+                        cx={trendData[trendHoverIndex].x}
+                        cy={trendData[trendHoverIndex].y}
+                        r="4"
+                        fill="#ef4444"
+                      />
+                      {/* Dot Hijau pada Garis Dasar */}
+                      <circle
+                        cx={trendData[trendHoverIndex].x}
+                        cy="200"
+                        r="4"
+                        fill="#10b981"
+                      />
+                    </g>
+                  )}
                 </svg>
+
+                {/* Invisible Hover Trigger Areas */}
+                <div className="absolute inset-0 flex justify-between z-10">
+                  {trendData.map((item, idx) => (
+                    <div
+                      key={item.month}
+                      className="h-full flex-1 cursor-pointer"
+                      onMouseEnter={() => setTrendHoverIndex(idx)}
+                      onMouseLeave={() => setTrendHoverIndex(null)}
+                    />
+                  ))}
+                </div>
+
+                {/* Box Tooltip Mengambang Saat Hover */}
+                {trendHoverIndex !== null && (
+                  <div
+                    className="absolute z-20 bg-white border border-slate-200 shadow-xl rounded-xl p-3 text-xs w-40 pointer-events-none transition-all duration-75"
+                    style={{
+                      left: `${(trendData[trendHoverIndex].x / 600) * 100}%`,
+                      top: `${(trendData[trendHoverIndex].y / 200) * 100 - 30}%`,
+                      transform: trendHoverIndex > 3 ? "translate(-110%, 0)" : "translate(10px, 0)",
+                    }}
+                  >
+                    <p className="font-bold text-slate-800 mb-1.5">{trendData[trendHoverIndex].month}</p>
+                    <div className="space-y-1 font-medium">
+                      <div className="flex items-center justify-between text-emerald-600">
+                        <span>Diselesaikan :</span>
+                        <span className="font-semibold">{trendData[trendHoverIndex].diselesaikan}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-red-500">
+                        <span>Pelanggaran :</span>
+                        <span className="font-semibold">{trendData[trendHoverIndex].pelanggaran}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Sumbu X (Bulan) */}
             <div className="flex justify-between pl-16 pr-6 text-xs font-semibold text-slate-500 mb-6">
-              <span>2025-06</span>
-              <span>2025-07</span>
-              <span>2025-08</span>
-              <span>2025-09</span>
-              <span>2025-10</span>
-              <span>2025-11</span>
+              {trendData.map((item) => (
+                <span key={item.month}>{item.month}</span>
+              ))}
             </div>
 
-            {/* Legenda Bawah dengan Titik Lingkaran Bertali */}
+            {/* Legenda Bawah */}
             <div className="flex items-center justify-center gap-8 pt-4 border-t border-slate-100">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full border border-emerald-500 flex items-center justify-center">
