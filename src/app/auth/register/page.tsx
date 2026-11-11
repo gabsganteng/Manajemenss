@@ -50,108 +50,115 @@ export default function HomePage() {
     const isFormValid = accountTerms && formData.password && formData.password === formData.confirmPassword;
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-50 via-white to-blue-100 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-blue-100 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100 p-8 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/10 rounded-2xl" />
+                {/* KOTAK REGISTER MENGAMBANG (FLOATING CARD) DENGAN SUDUT MELENGKUNG HALUS DAN GARIS TIPIS */}
+                <div className="bg-white/90 backdrop-blur-md rounded-[36px] shadow-2xl shadow-blue-500/10 border border-blue-100/80 p-8 relative overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-blue-500/15 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                    
+                    {/* Layer Soft Gradient Inside */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-blue-600/10 rounded-[36px] pointer-events-none" />
+                    
                     <div className="relative z-10">
-                        {/* <a
-                            href="/auth/login"
-                            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-6"
-                        >
-                            <ArrowLeft className="w-4 h-4"></ArrowLeft>
-                            Back to login
-                        </a> */}
+                        {/* Header Profile Icon & Title */}
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500/5 to-blue-600/100 rounded-full flex items-center justify-center mb-4 shadow-lg">
+                            <div className="w-16 h-16 mx-auto bg-gradient-to-tr from-blue-600 to-blue-400 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30 transition-transform duration-300 hover:scale-105">
                                 <User className="w-8 h-8 text-white" />
                             </div>
-                            <h1 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h1>
-                            <p className="text-gray-600">Join us today! It takes only a few steps.</p>
+                            <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight mb-1">Create Account</h1>
+                            <p className="text-sm font-medium text-slate-500">Join us today! It takes only a few steps.</p>
                         </div>
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-700" htmlFor="username">
+
+                        {/* Form Inputs */}
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* Name */}
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 ml-1" htmlFor="username">
                                     Name
                                 </label>
                                 <div className="relative">
-                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></User>
+                                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                                     <input
                                         name="username"
                                         value={formData.username}
                                         onChange={handleInputChange}
                                         type="text"
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full pl-11 pr-4 py-3 border border-slate-200/80 rounded-2xl bg-white/80 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-sm"
                                         placeholder="Enter your name"
                                         required
                                     />
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-700" htmlFor="email">
+
+                            {/* Email */}
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 ml-1" htmlFor="email">
                                     Email
                                 </label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></Mail>
+                                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                                     <input
                                         name="email"
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         type="email"
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full pl-11 pr-4 py-3 border border-slate-200/80 rounded-2xl bg-white/80 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-sm"
                                         placeholder="Enter your email"
                                         required
                                     />
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-700" htmlFor="password">
+
+                            {/* Password */}
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 ml-1" htmlFor="password">
                                     Password
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></Lock>
+                                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                                     <input
                                         name="password"
                                         value={formData.password}
                                         onChange={handleInputChange}
                                         type={showPassword ? "text" : "password"}
-                                        className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full pl-11 pr-12 py-3 border border-slate-200/80 rounded-2xl bg-white/80 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-sm"
                                         placeholder="Enter your password"
                                         required
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                                     >
                                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                     </button>
                                 </div>
                                 {formData.password && (
-                                    <div className={`text-sm font-medium mt-1 ${passwordStrength.color}`}>
+                                    <div className={`text-xs font-semibold mt-1 ml-1 ${passwordStrength.color}`}>
                                         {passwordStrength.text}
                                     </div>
                                 )}
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-700" htmlFor="confirmPassword">
+
+                            {/* Confirm Password */}
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 ml-1" htmlFor="confirmPassword">
                                     Confirm Password
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></Lock>
+                                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                                     <input
                                         name="confirmPassword"
                                         value={formData.confirmPassword}
                                         onChange={handleInputChange}
                                         type={showConfirmPassword ? "text" : "password"}
-                                        className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl bg-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full pl-11 pr-12 py-3 border border-slate-200/80 rounded-2xl bg-white/80 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 shadow-sm"
                                         placeholder="Enter your confirm password"
                                         required
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                                     >
                                         {showConfirmPassword ? (
                                             <EyeOff className="w-5 h-5" />
@@ -162,42 +169,48 @@ export default function HomePage() {
                                 </div>
                                 {formData.confirmPassword &&
                                     (formData.password !== formData.confirmPassword ? (
-                                        <div className="text-sm font-medium mt-1 text-red-500">
+                                        <div className="text-xs font-semibold mt-1 ml-1 text-red-500">
                                             Confirm Password does not match
                                         </div>
                                     ) : (
-                                        <div className="text-sm font-medium mt-1 text-green-600">
+                                        <div className="text-xs font-semibold mt-1 ml-1 text-green-600">
                                             Confirm Password matches
                                         </div>
                                     ))}
                             </div>
-                            <div className="flex items-center gap-2">
+
+                            {/* Terms and Conditions */}
+                            <div className="flex items-center gap-2 pt-1">
                                 <input
                                     type="checkbox"
                                     checked={accountTerms}
                                     onChange={e => setAccountTerms(e.target.checked)}
                                     name="terms"
                                     id="terms"
-                                    className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                 />
-                                <label htmlFor="terms" className="text-sm text-gray-600">
+                                <label htmlFor="terms" className="text-sm text-slate-600">
                                     I agree to the{" "}
-                                    <a href="#" className="text-blue-500 hover:underline">
+                                    <a href="#" className="text-blue-600 font-semibold hover:underline">
                                         Terms and Conditions
                                     </a>
                                 </label>
                             </div>
+
+                            {/* Submit Button */}
                             <button
                                 type="submit"
                                 disabled={!isFormValid}
-                                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-xl font-medium hover:from-blue-600 hover:to-blue-700 transition hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all"
+                                className="w-full mt-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white py-3.5 rounded-2xl font-semibold hover:from-blue-700 hover:to-blue-600 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                             >
                                 Register
                             </button>
-                            <div className="text-center">
-                                <p className="text-sm text-gray-600">
+
+                            {/* Login Link */}
+                            <div className="text-center pt-2">
+                                <p className="text-sm font-medium text-slate-500">
                                     Already have an account?{" "}
-                                    <a href="/auth/login" className="text-blue-600 hover:underline">
+                                    <a href="/auth/login" className="text-blue-600 font-semibold hover:underline">
                                         Login
                                     </a>
                                 </p>
