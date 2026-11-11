@@ -155,8 +155,24 @@ export default function DashboardPage() {
                   <XAxis dataKey="className" stroke="#94a3b8" fontSize={12} tickLine={false} />
                   <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} />
                   <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "16px", border: "1px solid #e2e8f0", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.05)" }} />
-                  <Bar dataKey="LakiLaki" fill="#2563eb" radius={[8, 8, 0, 0]} isAnimationActive={true} animationDuration={1200} />
-                  <Bar dataKey="Perempuan" fill="#ec4899" radius={[8, 8, 0, 0]} isAnimationActive={true} animationDuration={1400} />
+                  <Bar 
+                    dataKey="LakiLaki" 
+                    fill="#2563eb" 
+                    radius={[8, 8, 0, 0]} 
+                    isAnimationActive={true} 
+                    animationDuration={1500}
+                    animationBegin={200}
+                    animationEasing="ease-out"
+                  />
+                  <Bar 
+                    dataKey="Perempuan" 
+                    fill="#ec4899" 
+                    radius={[8, 8, 0, 0]} 
+                    isAnimationActive={true} 
+                    animationDuration={1800}
+                    animationBegin={400}
+                    animationEasing="ease-out"
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
