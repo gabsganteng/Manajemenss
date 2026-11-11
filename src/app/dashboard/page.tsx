@@ -1,24 +1,71 @@
 'use client';
 
-import { useState } from "react";
-import { Users, GraduationCap, TrendingUp, AlertTriangle, BarChart3, PieChart, Activity } from "lucide-react";
+import { 
+  Users, 
+  GraduationCap, 
+  TrendingUp, 
+  AlertTriangle, 
+  BarChart3, 
+  PieChart as PieIcon, 
+  Activity, 
+  Target 
+} from "lucide-react";
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  Tooltip, 
+  ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell, 
+  AreaChart, 
+  Area 
+} from "recharts";
+
+// Data Grafik Siswa per Kelas
+const classData = [
+  { className: "XI RPL 1", LakiLaki: 2, Perempuan: 1 },
+  { className: "XI RPL 2", LakiLaki: 2, Perempuan: 1 },
+  { className: "XII RPL 1", LakiLaki: 2, Perempuan: 1 },
+];
+
+// Data Grafik Rasio Jenis Kelamin
+const genderData = [
+  { name: "Laki-laki", value: 60, color: "#2563eb" },
+  { name: "Perempuan", value: 40, color: "#ec4899" },
+];
+
+// Data Grafik Tren Pelanggaran 6 Bulan Terakhir
+const trendData = [
+  { month: "2025-06", Pelanggaran: 4, Diselesaikan: 0 },
+  { month: "2025-07", Pelanggaran: 4, Diselesaikan: 0 },
+  { month: "2025-08", Pelanggaran: 4, Diselesaikan: 0 },
+  { month: "2025-09", Pelanggaran: 4, Diselesaikan: 0 },
+  { month: "2025-10", Pelanggaran: 7, Diselesaikan: 0 },
+  { month: "2025-11", Pelanggaran: 0, Diselesaikan: 0 },
+];
+
+// Data Top 5 Jenis Pelanggaran
+const jenisPelanggaranData = [
+  { name: "Terlambat masuk kelas", count: 12, color: "bg-red-500" },
+  { name: "Tidak masuk tanpa keterangan", count: 4, color: "bg-orange-500" },
+  { name: "Tidak memakai sepatu hitam", count: 3, color: "bg-amber-500" },
+  { name: "Tidak mengerjakan tugas", count: 3, color: "bg-yellow-500" },
+  { name: "Tidur saat pelajaran", count: 3, color: "bg-lime-500" },
+];
 
 export default function DashboardPage() {
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
-  const [trendHoverIndex, setTrendHoverIndex] = useState<number | null>(null);
-
-  // Data Tren Pelanggaran 6 Bulan Terakhir
-  const trendData = [
-    { month: "2025-06", diselesaikan: 0, pelanggaran: 4, x: 0, y: 100 },
-    { month: "2025-07", diselesaikan: 0, pelanggaran: 4, x: 120, y: 100 },
-    { month: "2025-08", diselesaikan: 0, pelanggaran: 4, x: 240, y: 100 },
-    { month: "2025-09", diselesaikan: 0, pelanggaran: 4, x: 360, y: 100 },
-    { month: "2025-10", diselesaikan: 0, pelanggaran: 7, x: 480, y: 25 },
-    { month: "2025-11", diselesaikan: 0, pelanggaran: 0, x: 600, y: 200 },
-  ];
-
   return (
-    <div className="flex-1 p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
+    <div className="flex-1 p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full animate-in fade-in duration-500 bg-slate-50/50 min-h-screen">
       {/* Header Judul */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">Dashboard Siswa</h1>
@@ -27,340 +74,221 @@ export default function DashboardPage() {
 
       {/* Grid 4 Kartu Statistik */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {/* Card 1: Siswa Aktif */}
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex flex-col">
-              <span className="text-sm text-slate-400 font-medium">Siswa</span>
-              <span className="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md w-fit mt-1">Aktif</span>
+        {/* Card 1 */}
+        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <p className="text-sm font-medium text-slate-400">Siswa</p>
+              <Badge variant="secondary" className="mt-1 text-[10px] font-semibold border-0 bg-slate-100 text-slate-600">Aktif</Badge>
             </div>
-            <div className="w-12 h-12 bg-blue-600 rounded-[20px] text-white shadow-md shadow-blue-100 flex items-center justify-center">
+            <div className="w-12 h-12 bg-blue-600 rounded-[20px] text-white shadow-md shadow-blue-100 flex items-center justify-center transition-transform hover:scale-110">
               <Users className="h-6 w-6" />
             </div>
-          </div>
-          <div>
+          </CardHeader>
+          <CardContent>
             <div className="text-3xl font-extrabold text-slate-900">10</div>
             <p className="text-xs text-slate-400 mt-1">Siswa aktif</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Card 2: Kelas */}
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-slate-400 font-medium">Kelas</span>
-            <div className="w-12 h-12 bg-emerald-500 rounded-[20px] text-white shadow-md shadow-emerald-100 flex items-center justify-center">
+        {/* Card 2 */}
+        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <p className="text-sm font-medium text-slate-400">Kelas</p>
+            <div className="w-12 h-12 bg-emerald-500 rounded-[20px] text-white shadow-md shadow-emerald-100 flex items-center justify-center transition-transform hover:scale-110">
               <GraduationCap className="h-6 w-6" />
             </div>
-          </div>
-          <div>
+          </CardHeader>
+          <CardContent>
             <div className="text-3xl font-extrabold text-slate-900">4</div>
             <p className="text-xs text-slate-400 mt-1">Kelas aktif</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Card 3: Rata-rata/Kelas */}
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-slate-400 font-medium">Rata-rata/Kelas</span>
-            <div className="w-12 h-12 bg-amber-500 rounded-[20px] text-white shadow-md shadow-amber-100 flex items-center justify-center">
+        {/* Card 3 */}
+        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <p className="text-sm font-medium text-slate-400">Rata-rata/Kelas</p>
+            <div className="w-12 h-12 bg-amber-500 rounded-[20px] text-white shadow-md shadow-amber-100 flex items-center justify-center transition-transform hover:scale-110">
               <TrendingUp className="h-6 w-6" />
             </div>
-          </div>
-          <div>
+          </CardHeader>
+          <CardContent>
             <div className="text-3xl font-extrabold text-slate-900">3</div>
             <p className="text-xs text-slate-400 mt-1">Siswa per kelas</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Card 4: Pelanggaran */}
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-slate-400 font-medium">Pelanggaran</span>
-            <div className="w-12 h-12 bg-red-500 rounded-[20px] text-white shadow-md shadow-red-100 flex items-center justify-center">
+        {/* Card 4 */}
+        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <p className="text-sm font-medium text-slate-400">Pelanggaran</p>
+            <div className="w-12 h-12 bg-red-500 rounded-[20px] text-white shadow-md shadow-red-100 flex items-center justify-center transition-transform hover:scale-110">
               <AlertTriangle className="h-6 w-6" />
             </div>
-          </div>
-          <div>
+          </CardHeader>
+          <CardContent>
             <div className="text-3xl font-extrabold text-slate-900">69</div>
             <p className="text-xs text-slate-400 mt-1">Total pelanggaran</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* TATA LETAK UTAMA: ATAS KE BAWAH */}
+      {/* SEKSI GRAFIK UTAMA */}
       <div className="flex flex-col gap-6">
         
-        {/* 1. CHART SISWA PER KELAS */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 relative">
-          <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
+        {/* 1. SISWA PER KELAS */}
+        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-blue-50 rounded-2xl text-blue-600">
                 <BarChart3 className="h-5 w-5" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900">Siswa per Kelas</h2>
+              <CardTitle className="text-lg font-bold text-slate-900">Siswa per Kelas</CardTitle>
             </div>
-            <span className="text-xs font-semibold px-4 py-2 rounded-xl text-slate-600 bg-slate-50 border border-slate-100 shadow-sm">
-              Gender Distribution
-            </span>
-          </div>
-
-          <div className="pt-4 pb-2 relative">
-            <div className="relative h-60 flex items-end pl-12 pr-6 border-l border-b border-slate-200 ml-4 mb-8">
-              {activeTooltip && (
-                <div className="absolute top-4 right-1/3 bg-white border border-slate-200 shadow-xl rounded-2xl p-4 z-20 w-44 animate-in fade-in zoom-in-95 duration-150">
-                  <p className="text-sm font-bold text-slate-800 mb-2">{activeTooltip}</p>
-                  <div className="space-y-1 text-xs font-medium">
-                    <div className="flex justify-between items-center text-blue-600">
-                      <span>Laki-Laki :</span>
-                      <span className="font-bold">2</span>
-                    </div>
-                    <div className="flex justify-between items-center text-pink-600">
-                      <span>Perempuan :</span>
-                      <span className="font-bold">1</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div className="absolute left-[-40px] top-0 h-full flex flex-col justify-between text-xs font-medium text-slate-400 py-1">
-                <span>3</span>
-                <span>2.25</span>
-                <span>1.5</span>
-                <span>0.75</span>
-                <span>0</span>
-              </div>
-
-              <div className="flex items-end justify-around h-full w-full pt-4">
-                <div 
-                  className="relative flex flex-col items-center h-full cursor-pointer group"
-                  onMouseEnter={() => setActiveTooltip("XI RPL 1")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                >
-                  <div className="flex items-end gap-3 h-full">
-                    <div className="w-14 bg-blue-500 hover:bg-blue-600 transition-colors rounded-t-xl h-48 shadow-sm"></div>
-                    <div className="w-14 bg-pink-500 hover:bg-pink-600 transition-colors rounded-t-xl h-32 shadow-sm"></div>
-                  </div>
-                  <span className="absolute -bottom-8 text-xs font-semibold text-slate-600 group-hover:text-blue-600">XI RPL 1</span>
-                </div>
-
-                <div 
-                  className="relative flex flex-col items-center h-full cursor-pointer group"
-                  onMouseEnter={() => setActiveTooltip("XI RPL 2")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                >
-                  <div className="flex items-end gap-3 h-full">
-                    <div className="w-14 bg-blue-500 hover:bg-blue-600 transition-colors rounded-t-xl h-32 shadow-sm"></div>
-                    <div className="w-14 bg-pink-500 hover:bg-pink-600 transition-colors rounded-t-xl h-20 shadow-sm"></div>
-                  </div>
-                  <span className="absolute -bottom-8 text-xs font-semibold text-slate-600 group-hover:text-blue-600">XI RPL 2</span>
-                </div>
-
-                <div 
-                  className="relative flex flex-col items-center h-full cursor-pointer group"
-                  onMouseEnter={() => setActiveTooltip("XII RPL 1")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                >
-                  <div className="flex items-end gap-3 h-full">
-                    <div className="w-14 bg-blue-500 hover:bg-blue-600 transition-colors rounded-t-xl h-20 shadow-sm"></div>
-                    <div className="w-14 bg-pink-500 hover:bg-pink-600 transition-colors rounded-t-xl h-20 shadow-sm"></div>
-                  </div>
-                  <span className="absolute -bottom-8 text-xs font-semibold text-slate-600 group-hover:text-blue-600">XII RPL 1</span>
-                </div>
-              </div>
+            <Badge variant="outline" className="px-3 py-1 font-semibold text-slate-600 border-slate-200 rounded-xl">Gender Distribution</Badge>
+          </CardHeader>
+          <CardContent className="pt-2">
+            <div className="w-full h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={classData}>
+                  <XAxis dataKey="className" stroke="#94a3b8" fontSize={12} tickLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} />
+                  <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "16px", border: "1px solid #e2e8f0", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.05)" }} />
+                  <Bar dataKey="LakiLaki" fill="#2563eb" radius={[8, 8, 0, 0]} isAnimationActive={true} animationDuration={1200} />
+                  <Bar dataKey="Perempuan" fill="#ec4899" radius={[8, 8, 0, 0]} isAnimationActive={true} animationDuration={1400} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
+          </CardContent>
+        </Card>
 
-            <div className="flex items-center justify-center gap-6 pt-6">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-blue-500 rounded-md"></span>
-                <span className="text-xs font-medium text-slate-600">Laki-Laki</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-pink-500 rounded-md"></span>
-                <span className="text-xs font-medium text-slate-600">Perempuan</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 2. CHART JENIS KELAMIN */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
+        {/* 2. JENIS KELAMIN */}
+        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-blue-50 rounded-2xl text-blue-600">
-                <PieChart className="h-5 w-5" />
+                <PieIcon className="h-5 w-5" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900">Jenis Kelamin</h2>
+              <CardTitle className="text-lg font-bold text-slate-900">Jenis Kelamin</CardTitle>
             </div>
-            <span className="text-xs font-semibold px-4 py-2 rounded-xl text-slate-600 bg-slate-50 border border-slate-100 shadow-sm">
-              Total Ratio
-            </span>
-          </div>
+            <Badge variant="outline" className="px-3 py-1 font-semibold text-slate-600 border-slate-200 rounded-xl">Total Ratio</Badge>
+          </CardHeader>
+          <CardContent className="pt-2 flex flex-col items-center justify-center">
+            <div className="w-full h-[240px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie 
+                    data={genderData} 
+                    dataKey="value" 
+                    nameKey="name" 
+                    cx="50%" 
+                    cy="50%" 
+                    innerRadius={60} 
+                    outerRadius={80} 
+                    paddingAngle={6}
+                    isAnimationActive={true}
+                    animationDuration={1500}
+                  >
+                    {genderData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ borderRadius: "16px", border: "1px solid #e2e8f0" }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex items-center gap-6 mt-2 pb-2">
+              <div className="flex items-center gap-2 text-xs font-medium text-slate-600"><span className="w-3 h-3 bg-blue-600 rounded-md"></span>Laki-laki (60%)</div>
+              <div className="flex items-center gap-2 text-xs font-medium text-slate-600"><span className="w-3 h-3 bg-pink-500 rounded-md"></span>Perempuan (40%)</div>
+            </div>
+          </CardContent>
+        </Card>
 
-          <div className="py-6 flex flex-col items-center justify-center relative">
-            <p className="text-sm font-semibold text-slate-600 mb-4">Laki-laki (60.0%)</p>
-            <div 
-              className="w-48 h-48 rounded-full relative shadow-inner"
-              style={{
-                background: "conic-gradient(#2563eb 0% 60%, #ec4899 60% 100%)"
-              }}
-            >
-              <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-sm">
-                <span className="text-xs font-bold text-slate-400">Ratio</span>
-              </div>
-            </div>
-            <p className="text-sm font-semibold text-pink-500 mt-4">Perempuan (40.0%)</p>
-          </div>
-
-          <div className="flex items-center justify-center gap-6 pt-4 border-t border-slate-100">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-blue-600 rounded-md"></span>
-              <span className="text-xs font-medium text-slate-600">Laki-laki</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-pink-500 rounded-md"></span>
-              <span className="text-xs font-medium text-slate-600">Perempuan</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 3. CHART TREN PELANGGARAN DENGAN HOVER TOOLTIP INTERAKTIF */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
+        {/* 3. TREN PELANGGARAN */}
+        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-red-50 rounded-2xl text-red-600">
                 <Activity className="h-5 w-5" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900">Tren Pelanggaran</h2>
+              <CardTitle className="text-lg font-bold text-slate-900">Tren Pelanggaran</CardTitle>
             </div>
-            <span className="text-xs font-semibold px-3 py-1.5 rounded-full text-white bg-red-600 shadow-sm">
-              6 Bulan Terakhir
-            </span>
-          </div>
+            <Badge className="bg-red-600 text-white font-semibold rounded-xl px-3 py-1 border-0">6 Bulan Terakhir</Badge>
+          </CardHeader>
+          <CardContent className="pt-2">
+            <div className="w-full h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={trendData}>
+                  <defs>
+                    <linearGradient id="colorPelanggaran" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#ef4444" stopOpacity={0.35}/>
+                      <stop offset="95%" stopColor="#ef4444" stopOpacity={0.0}/>
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="month" stroke="#94a3b8" fontSize={12} tickLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} />
+                  <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "16px", border: "1px solid #e2e8f0", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.05)" }} />
+                  <Area 
+                    type="monotone" 
+                    dataKey="Pelanggaran" 
+                    stroke="#ef4444" 
+                    strokeWidth={2.5} 
+                    fillOpacity={1} 
+                    fill="url(#colorPelanggaran)" 
+                    isAnimationActive={true}
+                    animationDuration={1500}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="Diselesaikan" 
+                    stroke="#10b981" 
+                    strokeWidth={2.5} 
+                    fill="transparent" 
+                    isAnimationActive={true}
+                    animationDuration={1500}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
 
-          <div className="pt-4 pb-2">
-            <div className="relative h-64 flex items-end pl-12 pr-6 border-l border-b border-slate-200 ml-4 mb-6">
-              {/* Sumbu Y */}
-              <div className="absolute left-[-35px] top-0 h-full flex flex-col justify-between text-xs font-medium text-slate-400 py-1">
-                <span>8</span>
-                <span>6</span>
-                <span>4</span>
-                <span>2</span>
-                <span>0</span>
+        {/* 4. JENIS PELANGGARAN (TOP 5) */}
+        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-orange-50 rounded-2xl text-orange-600">
+                <Target className="h-5 w-5" />
               </div>
-
-              {/* Kurva Grafik SVG */}
-              <div className="w-full h-full relative flex items-end">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 600 200" preserveAspectRatio="none">
-                  {/* Area Merah Muda Transparan */}
-                  <path
-                    d="M 0,100 L 360,100 C 420,100 440,25 480,25 C 520,25 570,120 600,200 L 0,200 Z"
-                    fill="rgba(248, 113, 113, 0.22)"
-                  />
-
-                  {/* Garis Kurva Merah Utama */}
-                  <path
-                    d="M 0,100 L 360,100 C 420,100 440,25 480,25 C 520,25 570,120 600,200"
-                    fill="none"
-                    stroke="#ef4444"
-                    strokeWidth="2"
-                  />
-
-                  {/* Garis Hijau di Dasar Sumbu X */}
-                  <line x1="0" y1="200" x2="600" y2="200" stroke="#10b981" strokeWidth="2" />
-
-                  {/* Garis Vertikal & Dots Saat Hover */}
-                  {trendHoverIndex !== null && (
-                    <g className="animate-in fade-in duration-150">
-                      {/* Garis Vertikal Abu-abu */}
-                      <line
-                        x1={trendData[trendHoverIndex].x}
-                        y1="0"
-                        x2={trendData[trendHoverIndex].x}
-                        y2="200"
-                        stroke="#cbd5e1"
-                        strokeWidth="1"
-                        strokeDasharray="0"
-                      />
-                      {/* Dot Merah pada Kurva */}
-                      <circle
-                        cx={trendData[trendHoverIndex].x}
-                        cy={trendData[trendHoverIndex].y}
-                        r="4"
-                        fill="#ef4444"
-                      />
-                      {/* Dot Hijau pada Garis Dasar */}
-                      <circle
-                        cx={trendData[trendHoverIndex].x}
-                        cy="200"
-                        r="4"
-                        fill="#10b981"
-                      />
-                    </g>
-                  )}
-                </svg>
-
-                {/* Invisible Hover Trigger Areas */}
-                <div className="absolute inset-0 flex justify-between z-10">
-                  {trendData.map((item, idx) => (
-                    <div
-                      key={item.month}
-                      className="h-full flex-1 cursor-pointer"
-                      onMouseEnter={() => setTrendHoverIndex(idx)}
-                      onMouseLeave={() => setTrendHoverIndex(null)}
+              <CardTitle className="text-lg font-bold text-slate-900">Jenis Pelanggaran</CardTitle>
+            </div>
+            <Badge variant="secondary" className="font-semibold bg-slate-100 text-slate-600 rounded-xl px-3 py-1 border-0">Top 5</Badge>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-5 py-4">
+            {jenisPelanggaranData.map((item) => (
+              <div key={item.name} className="flex items-center justify-between gap-4 group">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <span className={`w-3 h-3 rounded-full shrink-0 ${item.color} transition-transform group-hover:scale-125`}></span>
+                  <span className="text-sm font-semibold text-slate-800 truncate group-hover:text-blue-600 transition-colors">{item.name}</span>
+                </div>
+                <div className="flex items-center gap-4 w-48 shrink-0 justify-end">
+                  <div className="w-28 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-slate-300 rounded-full transition-all duration-1000 ease-out" 
+                      style={{ width: `${(item.count / 15) * 100}%` }} 
                     />
-                  ))}
-                </div>
-
-                {/* Box Tooltip Mengambang Saat Hover */}
-                {trendHoverIndex !== null && (
-                  <div
-                    className="absolute z-20 bg-white border border-slate-200 shadow-xl rounded-xl p-3 text-xs w-40 pointer-events-none transition-all duration-75"
-                    style={{
-                      left: `${(trendData[trendHoverIndex].x / 600) * 100}%`,
-                      top: `${(trendData[trendHoverIndex].y / 200) * 100 - 30}%`,
-                      transform: trendHoverIndex > 3 ? "translate(-110%, 0)" : "translate(10px, 0)",
-                    }}
-                  >
-                    <p className="font-bold text-slate-800 mb-1.5">{trendData[trendHoverIndex].month}</p>
-                    <div className="space-y-1 font-medium">
-                      <div className="flex items-center justify-between text-emerald-600">
-                        <span>Diselesaikan :</span>
-                        <span className="font-semibold">{trendData[trendHoverIndex].diselesaikan}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-red-500">
-                        <span>Pelanggaran :</span>
-                        <span className="font-semibold">{trendData[trendHoverIndex].pelanggaran}</span>
-                      </div>
-                    </div>
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* Sumbu X (Bulan) */}
-            <div className="flex justify-between pl-16 pr-6 text-xs font-semibold text-slate-500 mb-6">
-              {trendData.map((item) => (
-                <span key={item.month}>{item.month}</span>
-              ))}
-            </div>
-
-            {/* Legenda Bawah */}
-            <div className="flex items-center justify-center gap-8 pt-4 border-t border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full border border-emerald-500 flex items-center justify-center">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                  <span className="text-sm font-bold text-slate-800 w-6 text-right">{item.count}</span>
                 </div>
-                <span className="text-xs font-medium text-slate-600">Diselesaikan</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full border border-red-500 flex items-center justify-center">
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                </div>
-                <span className="text-xs font-medium text-slate-600">Pelanggaran</span>
-              </div>
+            ))}
+            <div className="flex items-center justify-between pt-4 mt-2 border-t border-slate-100">
+              <span className="text-xs font-medium text-slate-400">Total pelanggaran</span>
+              <span className="text-sm font-bold text-slate-800">69</span>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
       </div>
     </div>
