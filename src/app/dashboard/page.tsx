@@ -75,7 +75,7 @@ export default function DashboardPage() {
       {/* Grid 4 Kartu Statistik */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {/* Card 1 */}
-        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <Card className="rounded-[28px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <p className="text-sm font-medium text-slate-400">Siswa</p>
@@ -92,7 +92,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Card 2 */}
-        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <Card className="rounded-[28px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <p className="text-sm font-medium text-slate-400">Kelas</p>
             <div className="w-12 h-12 bg-emerald-500 rounded-[20px] text-white shadow-md shadow-emerald-100 flex items-center justify-center transition-transform hover:scale-110">
@@ -106,7 +106,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Card 3 */}
-        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <Card className="rounded-[28px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <p className="text-sm font-medium text-slate-400">Rata-rata/Kelas</p>
             <div className="w-12 h-12 bg-amber-500 rounded-[20px] text-white shadow-md shadow-amber-100 flex items-center justify-center transition-transform hover:scale-110">
@@ -120,7 +120,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Card 4 */}
-        <Card className="rounded-[28px] shadow-sm bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <Card className="rounded-[28px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <p className="text-sm font-medium text-slate-400">Pelanggaran</p>
             <div className="w-12 h-12 bg-red-500 rounded-[20px] text-white shadow-md shadow-red-100 flex items-center justify-center transition-transform hover:scale-110">
@@ -138,7 +138,7 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-6">
         
         {/* 1. SISWA PER KELAS */}
-        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+        <Card className="rounded-[32px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 p-2 transition-all hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-blue-50 rounded-2xl text-blue-600">
@@ -164,7 +164,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* 2. JENIS KELAMIN */}
-        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+        <Card className="rounded-[32px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 p-2 transition-all hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-blue-50 rounded-2xl text-blue-600">
@@ -206,7 +206,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* 3. TREN PELANGGARAN */}
-        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+        <Card className="rounded-[32px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 p-2 transition-all hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-red-50 rounded-2xl text-red-600">
@@ -255,7 +255,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* 4. JENIS PELANGGARAN (TOP 5) */}
-        <Card className="rounded-[32px] shadow-sm bg-white p-2 transition-all hover:shadow-md">
+        <Card className="rounded-[32px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 p-2 transition-all hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-orange-50 rounded-2xl text-orange-600">
