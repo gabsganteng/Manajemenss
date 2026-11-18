@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { 
   Users, 
   GraduationCap, 
@@ -44,8 +45,18 @@ const genderData = [
   { name: "Perempuan", value: 40, color: "#ec4899" },
 ];
 
-// Data Grafik Tren Pelanggaran 6 Bulan Terakhir
-const trendData = [
+// Data Awal (Titik 0 di dasar sebelum ombak naik)
+const initialTrendData = [
+  { month: "2025-06", Pelanggaran: 0, Diselesaikan: 0 },
+  { month: "2025-07", Pelanggaran: 0, Diselesaikan: 0 },
+  { month: "2025-08", Pelanggaran: 0, Diselesaikan: 0 },
+  { month: "2025-09", Pelanggaran: 0, Diselesaikan: 0 },
+  { month: "2025-10", Pelanggaran: 0, Diselesaikan: 0 },
+  { month: "2025-11", Pelanggaran: 0, Diselesaikan: 0 },
+];
+
+// Data Asli Grafik Tren Pelanggaran 6 Bulan Terakhir
+const actualTrendData = [
   { month: "2025-06", Pelanggaran: 4, Diselesaikan: 0 },
   { month: "2025-07", Pelanggaran: 4, Diselesaikan: 0 },
   { month: "2025-08", Pelanggaran: 4, Diselesaikan: 0 },
@@ -64,6 +75,17 @@ const jenisPelanggaranData = [
 ];
 
 export default function DashboardPage() {
+  // State untuk memicu animasi ombak naik & mengalir saat halaman dimuat
+  const [chartTrendData, setChartTrendData] = useState(initialTrendData);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setChartTrendData(actualTrendData);
+    }, 250); // Jeda 250ms agar browser siap merender transisi ombaknya
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="flex-1 p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full animate-in fade-in duration-500 bg-slate-50/50 min-h-screen">
       {/* Header Judul */}
@@ -203,8 +225,11 @@ export default function DashboardPage() {
                     innerRadius={60} 
                     outerRadius={80} 
                     paddingAngle={6}
+                    startAngle={0}
+                    endAngle={360}
                     isAnimationActive={true}
-                    animationDuration={1500}
+                    animationDuration={2000}
+                    animationEasing="ease-out"
                   >
                     {genderData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -221,7 +246,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* 3. TREN PELANGGARAN */}
+        {/* 3. TREN PELANGGARAN (EFEK OMBAK NAIK & MENGALIR) */}
         <Card className="rounded-[32px] shadow-xl shadow-blue-500/5 bg-white border border-slate-100/80 p-2 transition-all hover:shadow-blue-500/10">
           <CardHeader className="flex flex-row items-center justify-between pb-4 mb-2 border-b border-slate-100">
             <div className="flex items-center gap-3">
@@ -235,34 +260,36 @@ export default function DashboardPage() {
           <CardContent className="pt-2">
             <div className="w-full h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={trendData}>
+                <AreaChart data={chartTrendData}>
                   <defs>
                     <linearGradient id="colorPelanggaran" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#ef4444" stopOpacity={0.35}/>
+                      <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4}/>
                       <stop offset="95%" stopColor="#ef4444" stopOpacity={0.0}/>
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="month" stroke="#94a3b8" fontSize={12} tickLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} domain={[0, 8]} />
                   <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "16px", border: "1px solid #e2e8f0", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.05)" }} />
                   <Area 
                     type="monotone" 
                     dataKey="Pelanggaran" 
                     stroke="#ef4444" 
-                    strokeWidth={2.5} 
+                    strokeWidth={3} 
                     fillOpacity={1} 
                     fill="url(#colorPelanggaran)" 
                     isAnimationActive={true}
-                    animationDuration={1500}
+                    animationDuration={1800}
+                    animationEasing="ease-out"
                   />
                   <Area 
                     type="monotone" 
                     dataKey="Diselesaikan" 
                     stroke="#10b981" 
-                    strokeWidth={2.5} 
+                    strokeWidth={3} 
                     fill="transparent" 
                     isAnimationActive={true}
-                    animationDuration={1500}
+                    animationDuration={1800}
+                    animationEasing="ease-out"
                   />
                 </AreaChart>
               </ResponsiveContainer>
