@@ -1,13 +1,14 @@
 "use client";
 
-import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function HomePage() {
+export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [accountTerms, setAccountTerms] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -20,46 +21,73 @@ export default function HomePage() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        if (errorMessage) setErrorMessage("");
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!accountTerms) {
-            alert("You must accept the terms and conditions to register.");
+            setErrorMessage("Anda harus menyetujui Syarat dan Ketentuan.");
+            return;
+        }
+
+        if (formData.password.length < 6) {
+            setErrorMessage("Password minimal harus 6 karakter.");
             return;
         }
 
         if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match.");
+            setErrorMessage("Konfirmasi password tidak cocok.");
             return;
         }
 
-        console.log("Form submitted", formData);
+        // Ambil daftar user yang sudah ada di localStorage (jika ada)
+        const existingUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+
+        // Cek apakah email sudah terdaftar sebelumnya
+        const isEmailTaken = existingUsers.some((user: any) => user.email === formData.email);
+        if (isEmailTaken) {
+            setErrorMessage("Email ini sudah terdaftar! Silakan gunakan email lain atau langsung Login.");
+            return;
+        }
+
+        // Simpan user baru ke localStorage
+        const updatedUsers = [
+            ...existingUsers,
+            {
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
+            },
+        ];
+        localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
+
         router.push("/auth/login");
     };
 
     const getPasswordStrength = (password: string) => {
         if (password.length > 12) return { text: "Strong", color: "text-green-600" };
         if (password.length > 8) return { text: "Medium", color: "text-yellow-600" };
-        if (password.length < 6) return { text: "Weak", color: "text-red-600" };
+        if (password.length > 0 && password.length < 6) return { text: "Weak (Min 6 chars)", color: "text-red-600" };
         return { text: "", color: "" };
     };
 
     const passwordStrength = getPasswordStrength(formData.password);
-    const isFormValid = accountTerms && formData.password && formData.password === formData.confirmPassword;
+    const isFormValid =
+        accountTerms &&
+        formData.username.trim() !== "" &&
+        formData.email.trim() !== "" &&
+        formData.password.length >= 6 &&
+        formData.password === formData.confirmPassword;
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-blue-100 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
-                {/* KOTAK REGISTER MENGAMBANG (FLOATING CARD) DENGAN SUDUT MELENGKUNG HALUS DAN GARIS TIPIS */}
                 <div className="bg-white/90 backdrop-blur-md rounded-[36px] shadow-2xl shadow-blue-500/10 border border-blue-100/80 p-8 relative overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-blue-500/15 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                    
-                    {/* Layer Soft Gradient Inside */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-blue-600/10 rounded-[36px] pointer-events-none" />
-                    
+
                     <div className="relative z-10">
-                        {/* Header Profile Icon & Title */}
                         <div className="text-center mb-6">
                             <div className="w-16 h-16 mx-auto bg-gradient-to-tr from-blue-600 to-blue-400 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30 transition-transform duration-300 hover:scale-105">
                                 <User className="w-8 h-8 text-white" />
@@ -68,7 +96,13 @@ export default function HomePage() {
                             <p className="text-sm font-medium text-slate-500">Join us today! It takes only a few steps.</p>
                         </div>
 
-                        {/* Form Inputs */}
+                        {/* Kotak Peringatan Error */}
+                        {errorMessage && (
+                            <div className="mb-4 p-3 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-xs font-semibold text-center animate-in fade-in">
+                                {errorMessage}
+                            </div>
+                        )}
+
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Name */}
                             <div className="space-y-1.5">
@@ -160,11 +194,7 @@ export default function HomePage() {
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                         className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                                     >
-                                        {showConfirmPassword ? (
-                                            <EyeOff className="w-5 h-5" />
-                                        ) : (
-                                            <Eye className="w-5 h-5" />
-                                        )}
+                                        {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                     </button>
                                 </div>
                                 {formData.confirmPassword &&
@@ -184,7 +214,7 @@ export default function HomePage() {
                                 <input
                                     type="checkbox"
                                     checked={accountTerms}
-                                    onChange={e => setAccountTerms(e.target.checked)}
+                                    onChange={(e) => setAccountTerms(e.target.checked)}
                                     name="terms"
                                     id="terms"
                                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"

@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -16,12 +17,38 @@ export default function LoginPage() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        if (errorMessage) setErrorMessage(""); // Reset error saat user mengetik ulang
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        console.log("Form submitted", formData);
+        if (!formData.email || !formData.password) {
+            setErrorMessage("Email dan password harus diisi!");
+            return;
+        }
+
+        // Ambil data akun yang sudah didaftarkan dari localStorage (hasil dari Register)
+        const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+
+        // Cari apakah ada email & password yang cocok
+        const validUser = registeredUsers.find(
+            (user: any) => user.email === formData.email && user.password === formData.password
+        );
+
+        // Akun cadangan/default admin jika belum sempat register
+        const isDefaultAdmin = formData.email === "admin@sekolah.com" && formData.password === "admin123";
+
+        if (!validUser && !isDefaultAdmin) {
+            setErrorMessage("Email atau password salah, atau akun belum terdaftar!");
+            return;
+        }
+
+        // Simpan sesi user yang sedang login
+        localStorage.setItem("currentUser", JSON.stringify(validUser || { username: "Admin", email: formData.email }));
+
+        // Jika lolos dan cocok, arahkan ke dashboard
+        console.log("Login success", formData);
         router.push("/dashboard");
     };
 
@@ -43,6 +70,13 @@ export default function LoginPage() {
                             <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight mb-1">Welcome Back</h1>
                             <p className="text-sm font-medium text-slate-500">Sign in to your account</p>
                         </div>
+
+                        {/* Pesan Error jika input tidak valid / akun tidak ditemukan */}
+                        {errorMessage && (
+                            <div className="mb-4 p-3 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-xs font-semibold text-center animate-in fade-in">
+                                {errorMessage}
+                            </div>
+                        )}
 
                         {/* Form Inputs */}
                         <form onSubmit={handleSubmit} className="space-y-5">
